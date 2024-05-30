@@ -145,7 +145,7 @@ const verifyCode = () => {
   codeToVerify.value = "";
   setTimeout(() => {
     redeemedReward.value = false;
-  }, 00);
+  }, 8000);
 };
 const showBadge = ref(false);
 const code = ref("");

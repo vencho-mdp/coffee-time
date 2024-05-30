@@ -178,23 +178,23 @@ const products = [
   {
     name: "Café Cortado",
     points_required: 900,
-    image: "https://coffee-time-pied.vercel.app/cortado.png",
+    image: "https://coffee-time-pied.vercel.app/images/cortado.png",
   },
 
   {
     name: "Capuccino",
     points_required: 1000,
-    image: "https://coffee-time-pied.vercel.app/capuccino.png",
+    image: "https://coffee-time-pied.vercel.app/images/capuccino.png",
   },
   {
     name: "Tostado",
     points_required: 1500,
-    image: "https://coffee-time-pied.vercel.app/tostado.png",
+    image: "https://coffee-time-pied.vercel.app/images/tostado.png",
   },
   {
     name: "Torta de Frutilla",
     points_required: 2000,
-    image: "https://coffee-time-pied.vercel.app/torta.png",
+    image: "https://coffee-time-pied.vercel.app/images/torta.png",
   },
 ];
 const products_that_could_be_rewarded = computed(() => {

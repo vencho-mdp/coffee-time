@@ -145,7 +145,7 @@ const verifyCode = () => {
   codeToVerify.value = "";
   setTimeout(() => {
     redeemedReward.value = false;
-  }, 7500);
+  }, 00);
 };
 const showBadge = ref(false);
 const code = ref("");
@@ -178,23 +178,23 @@ const products = [
   {
     name: "Café Cortado",
     points_required: 900,
-    image: "http://localhost:3000/images/Cortado.png",
+    image: "https://coffee-time-pied.vercel.app/cortado.png",
   },
 
   {
     name: "Capuccino",
     points_required: 1000,
-    image: "http://localhost:3000/images/capuccino.png",
+    image: "https://coffee-time-pied.vercel.app/capuccino.png",
   },
   {
     name: "Tostado",
     points_required: 1500,
-    image: "http://localhost:3000/images/tostado.png",
+    image: "https://coffee-time-pied.vercel.app/tostado.png",
   },
   {
     name: "Torta de Frutilla",
     points_required: 2000,
-    image: "http://localhost:3000/images/torta.png",
+    image: "https://coffee-time-pied.vercel.app/torta.png",
   },
 ];
 const products_that_could_be_rewarded = computed(() => {

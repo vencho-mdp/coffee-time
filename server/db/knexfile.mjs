@@ -1,6 +1,6 @@
 const settings = {
   client: "pg",
   connection:
-    "postgresql://postgres:HFYSzFcXuhsGEHzIBsuXbcKgiFwTokYC@viaduct.proxy.rlwy.net:20710/railway",
+    "postgresql://postgres:apTmDAZprpojoLZUnhsuLKQihEpSHKOP@roundhouse.proxy.rlwy.net:27044/railway",
 };
 export default settings;

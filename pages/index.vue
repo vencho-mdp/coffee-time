@@ -218,7 +218,7 @@ if (useRoute().query.show_badge == "true") {
   }, 3000);
 }
 const first_part_of_url =
-  "https://coffee-time-pied.vercel.app/images" ||
+  "https://coffee-time-pied.vercel.app/images/" ||
   window?.location?.origin ||
   "http://localhost:3000" + "/images/";
 const products = [

@@ -38,7 +38,7 @@ if (updatedPoints.length === 0) {
 }
 
   // Return the updated points balance
-  return {new_points: updatedPoints[0], added_points: (amount_of_points) };
+  return {new_points: updatedPoints[0], added_points: (amount_of_points), sale_id: sale.id };
 
   } catch (error) {
     console.log(error)

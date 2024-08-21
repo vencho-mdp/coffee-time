@@ -7,14 +7,22 @@
 
 <script lang="ts" setup>
 import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
-
+let sales_ids = [];
 const onDetect = async (data = [{ rawValue: "/api/add-points" }]) => {
   let points = usePoints().value;
   const config = useRuntimeConfig();
 
-  const res = await $fetch(config.public.baseURL + "/api/add-points", {
+  let res = await $fetch(config.public.baseURL + "/api/add-points", {
     method: "POST",
   });
+  if (sales_ids.includes(res.sale_id)) {
+    navigateTo({
+      path: "/",
+      query: { show_badge: true, points: 0 },
+    });
+    return;
+  }
+  sales_ids.push(res.sale_id);
   points.points += res.added_points || 0;
   console.log(usePoints().value);
   // redirect to the next page

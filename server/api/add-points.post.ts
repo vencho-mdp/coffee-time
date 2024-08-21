@@ -23,7 +23,7 @@ if(usedIds.includes(sale.id)) {
 } else {
   usedIds.push(sale.id)
 }
-      const amount_of_points =  Math.round(summedPrices * 0.3)
+      const amount_of_points =  Math.round(summedPrices * 0.2)
 
   const {user} = await getServerSession(event)
   // Update the points_balance in the loyalty_points table

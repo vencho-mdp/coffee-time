@@ -58,7 +58,7 @@
     </div>
     <div class="py-4">
       <Subheader class="mb-1"> Canjeá tus puntos </Subheader>
-      <span class="items-center flex justify-center min-w-full pb-2">
+      <span class="items-center flex justify-center min-w-full pb-2 pl-2">
         <PillButton
           @click="changeSelectedCategory(category)"
           v-for="category in categories"

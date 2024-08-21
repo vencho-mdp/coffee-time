@@ -169,8 +169,10 @@ const verifyCode = async () => {
   const savedCodes = JSON.parse(localStorage.getItem("codes") || "[]");
   if (!savedCodes.includes(codeToVerify.value))
     return (redeemedReward.value = 0);
+  const config = useRuntimeConfig();
   await $fetch("/api/apply-reward", {
     method: "POST",
+    baseURL: config.public.baseURL,
     body: {
       code: codeToVerify.value,
     },

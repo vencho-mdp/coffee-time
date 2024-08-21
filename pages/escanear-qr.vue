@@ -10,7 +10,10 @@ import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
 
 const onDetect = async (data = [{ rawValue: "/api/add-points" }]) => {
   let points = usePoints().value;
+  const config = useRuntimeConfig();
+
   const res = await $fetch("/api/add-points", {
+    baseURL: config.public.baseURL,
     method: "POST",
   });
   points.points += res.added_points || 0;

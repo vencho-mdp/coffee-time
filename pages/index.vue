@@ -170,9 +170,8 @@ const verifyCode = async () => {
   if (!savedCodes.includes(codeToVerify.value))
     return (redeemedReward.value = 0);
   const config = useRuntimeConfig();
-  await $fetch("/api/apply-reward", {
+  await $fetch(config.public.baseURL + "/api/apply-reward", {
     method: "POST",
-    baseURL: config.public.baseURL,
     body: {
       code: codeToVerify.value,
     },

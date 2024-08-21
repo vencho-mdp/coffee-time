@@ -12,8 +12,7 @@ const onDetect = async (data = [{ rawValue: "/api/add-points" }]) => {
   let points = usePoints().value;
   const config = useRuntimeConfig();
 
-  const res = await $fetch("/api/add-points", {
-    baseURL: config.public.baseURL,
+  const res = await $fetch(config.public.baseURL + "/api/add-points", {
     method: "POST",
   });
   points.points += res.added_points || 0;

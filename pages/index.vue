@@ -224,7 +224,7 @@ const first_part_of_url =
   "http://localhost:3000" + "/images/";
 const products = [
   {
-    category: "bebidas",
+    category: "café",
     points_required: 3500,
     image: "cafe_xl.jpg",
   },

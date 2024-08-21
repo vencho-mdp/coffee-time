@@ -6,11 +6,11 @@
       <img
         :src="props.image_url"
         alt="product"
-        class="rounded-full h-36 w-36 object-scale-down"
+        class="rounded-full h-36 w-36 object-cover"
       />
       <span>
         <div class="pr-12">
-          <h4 class="text-xl text-center font-medium text-gray-800">
+          <h4 class="text-xl text-center font-bold text-gray-800">
             {{ props.product_name }}
           </h4>
           <h5 class="text-md text-center font-bold text-gray-500">
@@ -19,7 +19,9 @@
         </div>
       </span>
     </div>
-    <SecondaryButton @click="redeem" class="w-full"> Canjear </SecondaryButton>
+    <SecondaryButton @click="redeem" class="w-full mt-1">
+      Canjear
+    </SecondaryButton>
   </div>
 </template>
 

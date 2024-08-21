@@ -6,11 +6,11 @@
       <img
         :src="props.image_url"
         alt="product"
-        class="rounded-full h-36 w-36 object-scale-down"
+        class="rounded-full h-36 w-36 object-cover"
       />
       <span>
         <div class="pr-12">
-          <h4 class="text-xl text-center font-medium text-gray-800">
+          <h4 class="text-xl text-center font-bold text-gray-800">
             {{ props.product_name }}
           </h4>
           <h5 class="text-md text-center font-bold text-gray-500">
@@ -22,7 +22,7 @@
     <ProgressBar
       :width="(usePoints().value.points / props.points_required) * 100"
     >
-      Te faltan {{ props.points_required - usePoints().value.points }} puntos
+      Faltan {{ props.points_required - usePoints().value.points }} puntos
     </ProgressBar>
     <SecondaryButton class="w-full" :disabled="true"> Canjear </SecondaryButton>
   </div>

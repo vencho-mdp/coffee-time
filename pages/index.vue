@@ -1,8 +1,16 @@
 <template>
   <main class="p-4" v-if="!data.user?.name?.includes?.('Benicio')">
     <div class="py-4">
+      <span class="w-full flex items-center justify-center">
+        <img
+          src="/images/logo_croissant_largo.png"
+          alt="Croissant"
+          class="w-3/4 -mt-6"
+        />
+      </span>
+
       <span class="flex items-end justify-between">
-        <Header>¡Hola!</Header>
+        <Header> Hola {{ data.user.name }} </Header>
         <span class="font-bold text-lg text-gray-500">
           {{ usePoints().value.points }} Puntos
         </span>
@@ -31,32 +39,56 @@
             </svg> </PrimaryButton
         ></NuxtLink>
         <Transition>
-          <div v-if="showBadge" class="w-full flex items-center justify-center">
+          <div
+            v-if="
+              showBadge &&
+              useRoute().query.points !== 0 &&
+              useRoute().query.points
+            "
+            class="w-full flex items-center justify-center"
+          >
             <span
               class="bg-green-100 text-green-800 text-md font-bold px-4 py-2 mt-4 mx-auto rounded-full"
-              >Se agregaron 800 puntos a tu cuenta</span
+              >Se agregaron {{ useRoute().query.points }} puntos a tu
+              cuenta</span
             >
           </div>
         </Transition>
       </div>
     </div>
     <div class="py-4">
-      <Subheader> Canjeá tus puntos </Subheader>
-      <div class="grid grid-cols-1 gap-4 mt-4">
+      <Subheader class="mb-1"> Canjeá tus puntos </Subheader>
+      <span class="items-center flex justify-center min-w-full pb-2">
+        <PillButton
+          @click="changeSelectedCategory(category)"
+          v-for="category in categories"
+          :key="category"
+          class="capitalize mr-2 transition"
+          :class="{
+            '!bg-primary-brown-standard': selectedCategory === category,
+          }"
+          >{{ category }}
+        </PillButton>
+      </span>
+      <TransitionGroup name="list" class="grid grid-cols-1 gap-4 mt-4">
         <RewardCard
           v-for="product in products_that_could_be_rewarded"
           :product_name="product.name"
           :points_required="product.points_required"
           :image_url="product.image"
+          :key="product.name"
           @redeem="redeem"
         />
-      </div>
-      <UnavailableRewardCard
-        v-for="product in products_not_yet_available"
-        :product_name="product.name"
-        :points_required="product.points_required"
-        :image_url="product.image"
-      />
+      </TransitionGroup>
+      <TransitionGroup name="list">
+        <UnavailableRewardCard
+          v-for="product in products_not_yet_available"
+          :product_name="product.name"
+          :points_required="product.points_required"
+          :image_url="product.image"
+          :key="product.name"
+        />
+      </TransitionGroup>
     </div>
   </main>
   <main v-else class="p-4">
@@ -69,7 +101,7 @@
           <label
             for="first_name"
             class="block mb-2 text-sm font-medium text-gray-800"
-            >Verificá el código</label
+            >Código</label
           >
           <input
             type="text"
@@ -92,8 +124,8 @@
           >
             <span
               class="bg-green-100 text-green-800 text-md font-bold px-4 py-2 mt-4 mx-auto rounded-full"
-              >1 {{ redeemedReward }} gratis</span
-            >
+              >1 {{ redeemedReward }}
+            </span>
           </div>
           <div
             class="w-full flex items-center justify-center"
@@ -132,31 +164,41 @@ const closeModal = () => {
 };
 const codeToVerify = ref("");
 const redeemedReward = ref(false);
-const verifyCode = () => {
-  redeemedReward.value = codeToVerify.value.startsWith("TOST-2")
-    ? "Tostado"
-    : codeToVerify.value.startsWith("CAF-4")
-    ? "Café Cortado"
-    : codeToVerify.value.startsWith("CAP-3")
-    ? "Capuccino"
-    : codeToVerify.value.startsWith("TOR-5")
-    ? "Torta de Frutilla"
-    : 0;
+const verifyCode = async () => {
+  redeemedReward.value = "Descuento Aplicado";
+  const savedCodes = JSON.parse(localStorage.getItem("codes") || "[]");
+  if (!savedCodes.includes(codeToVerify.value))
+    return (redeemedReward.value = 0);
+  await $fetch("/api/apply-reward", {
+    method: "POST",
+    body: {
+      code: codeToVerify.value,
+    },
+  });
+  const codes = savedCodes.filter((c) => c !== codeToVerify.value);
+  // remove codeToVerify.value
+  localStorage.setItem("codes", JSON.stringify(codes));
   codeToVerify.value = "";
+
   setTimeout(() => {
     redeemedReward.value = false;
   }, 8000);
 };
 const showBadge = ref(false);
 const code = ref("");
-const codes = {
-  Tostado: "TOST-2",
-  "Café Cortado": "CAF-4",
-  Capuccino: "CAP-3",
-  "Torta de Frutilla": "TOR-5",
-};
+
 const redeem = (product_name) => {
-  code.value = codes[product_name] + Math.floor(Math.random() * 100);
+  let code_value =
+    product_name.substring(0, 3).toUpperCase() +
+    "-" +
+    Math.floor(100 + Math.random() * 900);
+  const codes = JSON.parse(localStorage.getItem("codes") || "[]");
+  code.value = code_value;
+  // Add the new code to the array
+  codes.push(code_value);
+
+  // Store the updated array back in localStorage
+  localStorage.setItem("codes", JSON.stringify(codes));
 };
 watch(
   () => usePoints().value.points,
@@ -174,36 +216,91 @@ if (useRoute().query.show_badge == "true") {
     showBadge.value = false;
   }, 3000);
 }
+const first_part_of_url =
+  window?.location?.origin || "http://localhost:3000" + "/images/";
 const products = [
   {
-    name: "Café Cortado",
+    category: "bebidas",
+    points_required: 3500,
+    image: "cafe_xl.jpg",
+  },
+  {
+    category: "pastelería",
+    points_required: 5800,
+    image: "muffin.jpg",
+  },
+  {
+    category: "salado",
+    points_required: 1900,
+    image: "medialuna_de_jyq.jpeg",
+  },
+  {
+    category: "pastelería",
     points_required: 900,
-    image: "https://coffee-time-pied.vercel.app/images/cortado.png",
-  },
-
-  {
-    name: "Capuccino",
-    points_required: 1000,
-    image: "https://coffee-time-pied.vercel.app/images/capuccino.png",
+    image: "medialuna_dulce.jpeg",
   },
   {
-    name: "Tostado",
-    points_required: 1500,
-    image: "https://coffee-time-pied.vercel.app/images/tostado.png",
+    category: "pastelería",
+    points_required: 5700,
+    image: "porcion_bruce.jpg",
   },
   {
-    name: "Torta de Frutilla",
-    points_required: 2000,
-    image: "https://coffee-time-pied.vercel.app/images/torta.png",
+    category: "pastelería",
+    points_required: 3300,
+    image: "porcion_budin_limon_y_amapolas.jpg",
   },
-];
-const products_that_could_be_rewarded = computed(() => {
+  {
+    category: "pastelería",
+    points_required: 5600,
+    image: "porcion_de_chesscake_frutos_rojos.jpeg",
+  },
+  {
+    category: "pastelería",
+    points_required: 5700,
+    image: "porcion_red_velvet.jpg",
+  },
+  {
+    category: "salado",
+    points_required: 3000,
+    image: "scon_de_queso.jpg",
+  },
+  {
+    category: "salado",
+    points_required: 3600,
+    image: "scon_relleno.jpg",
+  },
+  {
+    category: "salado",
+    points_required: 6300,
+    image: "tostado.jpg",
+  },
+].map((p) => ({
+  ...p,
+  image: first_part_of_url + p.image,
+  name: p.image
+    .split(".")[0] // Elimina la extensión del archivo
+    .replace(/_/g, " ") // Reemplaza guiones bajos por espacios
+    .replace(/\b\w/g, (c) => c.toUpperCase()), // Capitaliza la primera letra de cada palabra
+}));
+let selectedCategory = ref("todos");
+const changeSelectedCategory = (e) => {
+  selectedCategory.value = e;
+};
+const categories = ["todos", ...new Set(products.map((e) => e.category))];
+const filteredProducts = computed(() => {
   return products.filter(
+    (e) =>
+      selectedCategory.value === "todos" ||
+      e.category === selectedCategory.value
+  );
+});
+const products_that_could_be_rewarded = computed(() => {
+  return filteredProducts.value.filter(
     (product) => product.points_required <= usePoints().value.points
   );
 });
 const products_not_yet_available = computed(() => {
-  return products.filter(
+  return filteredProducts.value.filter(
     (product) => product.points_required > usePoints().value.points
   );
 });

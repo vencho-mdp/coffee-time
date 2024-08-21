@@ -3,9 +3,9 @@
     :class="[
       $attrs.disabled
         ? '!bg-gray-300 text-gray-500'
-        : 'bg-yellow-500 text-gray-50',
+        : 'bg-primary-green-dark text-gray-50',
     ]"
-    class="bg-yellow-500 text-sm font-medium rounded-md text-gray-50 flex items-center justify-center py-2 px-4"
+    class="text-sm font-medium rounded-md text-gray-50 flex items-end py-2 px-4 justify-center"
   >
     <slot />
   </button>

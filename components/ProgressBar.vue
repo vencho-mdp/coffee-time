@@ -6,7 +6,7 @@
   </div>
   <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
     <div
-      class="bg-yellow-400 h-2.5 rounded-full"
+      class="bg-primary-brown-light h-2.5 rounded-full"
       :style="{ width: props.width + '%' }"
     ></div>
   </div>

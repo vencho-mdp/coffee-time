@@ -61,11 +61,12 @@
       <span class="items-center flex justify-center min-w-full pb-2 pl-2">
         <PillButton
           @click="changeSelectedCategory(category)"
-          v-for="category in categories"
+          v-for="(category, i) in categories"
           :key="category"
           class="capitalize mr-2 transition"
           :class="{
             '!bg-primary-brown-standard': selectedCategory === category,
+            'ml-2': i === 0,
           }"
           >{{ category }}
         </PillButton>
@@ -150,7 +151,7 @@
 
       <p class="text-xl text-gray-600 -mt-8">
         El código es
-        <span class="font-bold text-yellow-500"> {{ code }}</span>
+        <span class="font-bold text-yellow-500 mr-8"> {{ code }}</span>
       </p>
     </div>
   </div>

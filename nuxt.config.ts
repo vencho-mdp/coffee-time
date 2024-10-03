@@ -6,7 +6,6 @@ export default defineNuxtConfig({
   modules: [
    "@nuxtjs/tailwindcss",
    "@sidebase/nuxt-auth",
-   "@vite-pwa/nuxt",
    ["@nuxtjs/google-fonts", {
     families: {
       'Courier Prime': true,

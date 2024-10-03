@@ -15,26 +15,6 @@ export default defineNuxtConfig({
     }
    }]
   ],
-  pwa: {
-        registerType: 'autoUpdate',
- manifest: {
-      name: 'App Croissant',
-      short_name: 'Croissant',
-      theme_color: '#ffffff',
-      icons: [
-        
-        {
-          src: 'images/logo_croissant.png',
-          type: 'image/png',
-        },
-       
-      ],
-    },
-     client: {
-      // installPrompt: true,
-      periodicSyncForUpdates: 3600,
-    },
-  },
    tailwindcss: {
     editorSupport: true
     // editorSupport: { autocompleteUtil: { as: 'tailwindClasses' } }

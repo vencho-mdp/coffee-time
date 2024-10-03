@@ -1,6 +1,6 @@
 <template>
   <main class="p-4">
-    <Header class="text-center mb-4">Escaneá el código</Header>
+    <Header class="text-center mb-4">Escaneá el código QR</Header>
     <qrcode-stream class="rounded-xl" @detect="onDetect"></qrcode-stream>
   </main>
 </template>

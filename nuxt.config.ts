@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   devtools: { enabled: false },
     css: ['~/assets/css/main.css'],
@@ -14,6 +15,32 @@ export default defineNuxtConfig({
     }
    }]
   ],
+  pwa: {
+        registerType: 'autoUpdate',
+ manifest: {
+      name: 'App Croissant',
+      short_name: 'Croissant',
+      theme_color: '#ffffff',
+      icons: [
+        
+        {
+          src: 'images/logo_croissant.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: 'images/logo_croissant.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+      ],
+    },
+     client: {
+      // installPrompt: true,
+      periodicSyncForUpdates: 3600,
+    },
+  },
    tailwindcss: {
     editorSupport: true
     // editorSupport: { autocompleteUtil: { as: 'tailwindClasses' } }

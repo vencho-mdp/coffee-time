@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const summedPrices = sale.attributes.total;
-    const amount_of_points = Math.round(summedPrices * 0.2);
+    const amount_of_points = Math.round(summedPrices * 0.1);
 
     const { user } = await getServerSession(event);
     // Update the points_balance in the loyalty_points table

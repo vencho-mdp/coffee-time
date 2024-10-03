@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 FUDO_API_SECRET: '',
 FUDO_API_TOKEN: '',
  public: {
-      baseURL: process.env.NODE_ENV === 'production' ?	'http://app.croissant.com.ar/' : 'http://localhost:3000',
+      baseURL: process.env.NODE_ENV === 'production' ?	'https://app.croissant.com.ar/' : 'http://localhost:3000',
     },
   },
    auth: {

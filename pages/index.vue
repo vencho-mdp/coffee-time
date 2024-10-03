@@ -173,12 +173,29 @@ watch(status, (new_val) => {
 });
 const codeToVerify = ref("");
 const redeemedReward = ref(false);
+function formatCode(code) {
+  // Remove any non-alphanumeric characters and make everything uppercase
+  code = code.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+
+  // Extract letters and numbers
+  let letters = code.match(/[A-Z]{3}/);
+  let numbers = code.match(/\d{3}/);
+
+  // Check if both letters and numbers are found
+  if (!letters || !numbers) {
+    return "Invalid input";
+  }
+
+  // Return the formatted code in the form "ABC-123"
+  return `${letters[0]}-${numbers[0]}`;
+}
+
 const verifyCode = async () => {
   const config = useRuntimeConfig();
   await $fetch(config.public.baseURL + "/api/apply-reward", {
     method: "POST",
     body: {
-      code: codeToVerify.value,
+      code: formatCode(codeToVerify.value),
     },
   });
   redeemedReward.value = "Descuento aplicado";

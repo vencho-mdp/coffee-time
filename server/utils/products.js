@@ -5,12 +5,12 @@ export default [
     image: "cafe_xl.jpg",
     product_name_in_dashboard: "Cafe con leche",
   },
-  {
-    category: "Dulce",
-    points_required: 3500,
-    image: "muffin_chocolate.jpg",
-    product_name_in_dashboard: "Muffin Chocolate",
-  },
+  // {
+  //   category: "Dulce",
+  //   points_required: 3500,
+  //   image: "muffin_chocolate.jpg",
+  //   product_name_in_dashboard: "Muffin Chocolate",
+  // },
   {
     category: "Dulce",
     points_required: 3500,
@@ -23,12 +23,12 @@ export default [
     image: "medialuna_de_jyq.jpeg",
     product_name_in_dashboard: "D. Medialuna con jamon y queso",
   },
-  {
-    category: "Dulce",
-    points_required: 900,
-    image: "medialuna_dulce.jpeg",
-    product_name_in_dashboard: "D. Medialuna dulce",
-  },
+  // {
+  //   category: "Dulce",
+  //   points_required: 900,
+  //   image: "medialuna_dulce.jpeg",
+  //   product_name_in_dashboard: "D. Medialuna dulce",
+  // },
   {
     category: "Dulce",
     points_required: 6000,

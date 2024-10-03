@@ -25,15 +25,9 @@ export default defineNuxtConfig({
         
         {
           src: 'images/logo_croissant.png',
-          sizes: '512x512',
           type: 'image/png',
         },
-        {
-          src: 'images/logo_croissant.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any maskable',
-        },
+       
       ],
     },
      client: {

@@ -3,17 +3,13 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
     css: ['~/assets/css/main.css'],
-  modules: [
-   "@nuxtjs/tailwindcss",
-   "@sidebase/nuxt-auth",
-   ["@nuxtjs/google-fonts", {
-    families: {
-      'Courier Prime': true,
-      'Huntress': true,
-      'Anton': true
-    }
-   }]
-  ],
+  modules: ["@nuxtjs/tailwindcss", "@sidebase/nuxt-auth", ["@nuxtjs/google-fonts", {
+   families: {
+     'Courier Prime': true,
+     'Huntress': true,
+     'Anton': true
+   }
+  }], '@vite-pwa/nuxt'],
    tailwindcss: {
     editorSupport: true
     // editorSupport: { autocompleteUtil: { as: 'tailwindClasses' } }

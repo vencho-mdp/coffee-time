@@ -2,7 +2,15 @@
   <main
     class="flex items-center flex-col justify-center min-w-full min-h-[70vh]"
   >
-    <Header class="mb-4">Iniciar sesión</Header>
+    <span class="w-full flex items-center justify-center">
+      <img
+        src="/images/logo_croissant.png"
+        alt="Croissant"
+        class="w-40 -mt-6"
+      />
+    </span>
+    <Header class="mt-8 text-center">¡Hola Crossi Fan!</Header>
+    <span class="text-lg mb-8"> Registrate y empezá a sumar puntos</span>
     <!-- <div class="mb-4">
       <label
         for="email"
@@ -52,8 +60,8 @@
           stroke-linejoin="round"
         />
       </svg>
-    </PrimaryButton> -->
-    <!-- <p class="font-bold text-sm mt-6 mb-6">O</p> -->
+    </PrimaryButton>
+    <p class="font-bold text-sm mt-6 mb-6">O</p> -->
     <button
       type="button"
       @click="signIn('google', { redirect: false, callbackUrl: '/' })"
@@ -72,7 +80,7 @@
           clip-rule="evenodd"
         />
       </svg>
-      Iniciar sesión con Google
+      Entrá con Google
     </button>
   </main>
 </template>

@@ -58,29 +58,33 @@
     </div>
     <div class="py-4">
       <Subheader class="mb-1"> Canjeá tus puntos </Subheader>
-      <span class="items-center flex justify-center min-w-full pb-2 pl-2">
+      <span
+        class="items-center flex justify-start min-w-full pb-2 flex-wrap gap-2"
+      >
         <PillButton
           @click="changeSelectedCategory(category)"
           v-for="(category, i) in categories"
           :key="category"
-          class="capitalize mr-2 transition"
+          class="capitalize transition"
           :class="{
             '!bg-primary-brown-standard': selectedCategory === category,
-            'ml-2': i === 0,
           }"
           >{{ category }}
         </PillButton>
       </span>
-      <TransitionGroup name="list" class="grid grid-cols-1 gap-4 mt-4">
-        <RewardCard
-          v-for="product in products_that_could_be_rewarded"
-          :product_name="product.name"
-          :points_required="product.points_required"
-          :image_url="product.image"
-          :key="product.name"
-          @redeem="redeem"
-        />
-      </TransitionGroup>
+      <div class="grid grid-cols-1 gap-4 mt-4">
+        <TransitionGroup name="list">
+          <RewardCard
+            v-for="product in products_that_could_be_rewarded"
+            :product_name="product.name"
+            :points_required="product.points_required"
+            :image_url="product.image"
+            :key="product.name"
+            @redeem="redeem"
+          />
+        </TransitionGroup>
+      </div>
+
       <TransitionGroup name="list">
         <UnavailableRewardCard
           v-for="product in products_not_yet_available"
@@ -158,18 +162,18 @@
 </template>
 
 <script lang="ts" setup>
-const { data } = useAuth();
+const { data, status } = useAuth();
 const showModal = ref(false);
 const closeModal = () => {
   showModal.value = false;
 };
+watch(status, (new_val) => {
+  if (new_val !== "authenticated") return;
+  usePoints().value.points = data.user.pointsBalance;
+});
 const codeToVerify = ref("");
 const redeemedReward = ref(false);
 const verifyCode = async () => {
-  redeemedReward.value = "Descuento Aplicado";
-  const savedCodes = JSON.parse(localStorage.getItem("codes") || "[]");
-  if (!savedCodes.includes(codeToVerify.value))
-    return (redeemedReward.value = 0);
   const config = useRuntimeConfig();
   await $fetch(config.public.baseURL + "/api/apply-reward", {
     method: "POST",
@@ -177,11 +181,8 @@ const verifyCode = async () => {
       code: codeToVerify.value,
     },
   });
-  const codes = savedCodes.filter((c) => c !== codeToVerify.value);
-  // remove codeToVerify.value
-  localStorage.setItem("codes", JSON.stringify(codes));
+  redeemedReward.value = "Descuento aplicado";
   codeToVerify.value = "";
-
   setTimeout(() => {
     redeemedReward.value = false;
   }, 8000);
@@ -189,19 +190,6 @@ const verifyCode = async () => {
 const showBadge = ref(false);
 const code = ref("");
 
-const redeem = (product_name) => {
-  let code_value =
-    product_name.substring(0, 3).toUpperCase() +
-    "-" +
-    Math.floor(100 + Math.random() * 900);
-  const codes = JSON.parse(localStorage.getItem("codes") || "[]");
-  code.value = code_value;
-  // Add the new code to the array
-  codes.push(code_value);
-
-  // Store the updated array back in localStorage
-  localStorage.setItem("codes", JSON.stringify(codes));
-};
 watch(
   () => usePoints().value.points,
   (points, oldPoints) => {
@@ -214,85 +202,42 @@ if (useRoute().query.show_badge == "true") {
   setTimeout(() => {
     showBadge.value = true;
   }, 500);
-  setTimeout(() => {
+  setTimeout(async () => {
     showBadge.value = false;
+    await useRouter().replace("");
   }, 3000);
 }
 const first_part_of_url =
   "https://coffee-time-pied.vercel.app/images/" ||
   window?.location?.origin ||
   "http://localhost:3000" + "/images/";
-const products = [
-  {
-    category: "café",
-    points_required: 3500,
-    image: "cafe_xl.jpg",
-  },
-  {
-    category: "pastelería",
-    points_required: 5800,
-    image: "muffin.jpg",
-  },
-  {
-    category: "salado",
-    points_required: 1900,
-    image: "medialuna_de_jyq.jpeg",
-  },
-  {
-    category: "pastelería",
-    points_required: 900,
-    image: "medialuna_dulce.jpeg",
-  },
-  {
-    category: "pastelería",
-    points_required: 5700,
-    image: "porcion_bruce.jpg",
-  },
-  {
-    category: "pastelería",
-    points_required: 3300,
-    image: "porcion_budin_limon_y_amapolas.jpg",
-  },
-  {
-    category: "pastelería",
-    points_required: 5600,
-    image: "porcion_de_chesscake_frutos_rojos.jpeg",
-  },
-  {
-    category: "pastelería",
-    points_required: 5700,
-    image: "porcion_red_velvet.jpg",
-  },
-  {
-    category: "salado",
-    points_required: 3000,
-    image: "scon_de_queso.jpg",
-  },
-  {
-    category: "salado",
-    points_required: 3600,
-    image: "scon_relleno.jpg",
-  },
-  {
-    category: "salado",
-    points_required: 6300,
-    image: "tostado.jpg",
-  },
-].map((p) => ({
-  ...p,
-  image: first_part_of_url + p.image,
-  name: p.image
-    .split(".")[0] // Elimina la extensión del archivo
-    .replace(/_/g, " ") // Reemplaza guiones bajos por espacios
-    .replace(/\b\w/g, (c) => c.toUpperCase()), // Capitaliza la primera letra de cada palabra
-}));
+const { data: products } = await useFetch("/api/get-products", {
+  transform: (response) =>
+    response.map((p) => ({
+      ...p,
+      image: first_part_of_url + p.image,
+    })),
+});
+const { data: initial_points } = await useFetch("/api/get-points-balance");
+usePoints().value.points = initial_points.value.points;
+const redeem = async (product_name) => {
+  const found_id = products.value.find((p) => p.name === product_name).id;
+  const created_promo_code = await $fetch("/api/create-promo-code", {
+    method: "POST",
+    body: {
+      product_id: found_id,
+      product_name: product_name,
+    },
+  });
+  code.value = created_promo_code.code_value;
+};
 let selectedCategory = ref("todos");
 const changeSelectedCategory = (e) => {
   selectedCategory.value = e;
 };
-const categories = ["todos", ...new Set(products.map((e) => e.category))];
+const categories = ["todos", ...new Set(products.value.map((e) => e.category))];
 const filteredProducts = computed(() => {
-  return products.filter(
+  return products.value.filter(
     (e) =>
       selectedCategory.value === "todos" ||
       e.category === selectedCategory.value
@@ -308,7 +253,6 @@ const products_not_yet_available = computed(() => {
     (product) => product.points_required > usePoints().value.points
   );
 });
-console.log(data.value);
 </script>
 
 <style>

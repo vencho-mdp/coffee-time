@@ -1,8 +1,9 @@
 import { NuxtAuthHandler } from "#auth";
 import GoogleProvider from "next-auth/providers/google";
 import db from "../../db/db";
+
 export default NuxtAuthHandler({
-  secret: "your-production-secret-ABUEEEEELA-LALALALALALALALALALALALA-ABUELA",  
+  secret: "your-production-secret-ABUEEEEELA-LALALALALALALALALALALALA-ABUELA",
   pages: {
     signIn: '/iniciar-sesion'
   },
@@ -23,6 +24,7 @@ export default NuxtAuthHandler({
           token.email = profile.email;
         }
         if (profile) {
+          // Check if user exists or create a new user
           const isNewUser = await db("users").where({ email: profile.email });
           if (isNewUser.length === 0) {
             const newUser = await db("users")
@@ -32,10 +34,23 @@ export default NuxtAuthHandler({
                 avatar_url: profile.picture,
               })
               .returning("id");
+              await db("loyalty_points")
+              .insert({
+                user_id:  newUser[0].id,
+                points_balance: 3000,
+              })
             token.id = newUser[0].id;
           } else {
             token.id = isNewUser[0].id;
           }
+
+          // Fetch points for the user
+          const userPoints = await db("loyalty_points")
+            .where({ user_id: token.id })
+            .first();
+
+          // Attach points balance to the token
+          token.pointsBalance = userPoints ? userPoints.points_balance : 0;
         }
         return token;
       } catch (error) {
@@ -43,8 +58,7 @@ export default NuxtAuthHandler({
       }
     },
     async session({ session, token }) {
-      session.user = { ...session.user, id: token.id };
-      // console.log(session)
+      session.user = { ...session.user, id: token.id, pointsBalance: token.pointsBalance };
       return session;
     },
   },

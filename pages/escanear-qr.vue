@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
+import { QrcodeStream } from "vue-qrcode-reader";
 let sales_ids = [];
 const onDetect = async (data = [{ rawValue: "/api/add-points" }]) => {
   let points = usePoints().value;
@@ -24,7 +24,6 @@ const onDetect = async (data = [{ rawValue: "/api/add-points" }]) => {
   }
   sales_ids.push(res.sale_id);
   points.points += res.added_points || 0;
-  console.log(usePoints().value);
   // redirect to the next page
   navigateTo({
     path: "/",

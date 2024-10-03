@@ -3,7 +3,7 @@
     class="flex items-center flex-col justify-center min-w-full min-h-[70vh]"
   >
     <Header class="mb-4">Iniciar sesión</Header>
-    <div class="mb-4">
+    <!-- <div class="mb-4">
       <label
         for="email"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -52,8 +52,8 @@
           stroke-linejoin="round"
         />
       </svg>
-    </PrimaryButton>
-    <p class="font-bold text-sm mt-6 mb-6">O</p>
+    </PrimaryButton> -->
+    <!-- <p class="font-bold text-sm mt-6 mb-6">O</p> -->
     <button
       type="button"
       @click="signIn('google', { redirect: false, callbackUrl: '/' })"

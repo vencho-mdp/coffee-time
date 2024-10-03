@@ -19,15 +19,15 @@ export default defineNuxtConfig({
     // editorSupport: { autocompleteUtil: { as: 'tailwindClasses' } }
   },
    runtimeConfig: {
-    FUDO_API_KEY: "MUAyMjgyMzM=",
-FUDO_API_SECRET:"CMGvSoois9aijpLmlsVot8HPodqkG5sX" ,
-FUDO_API_TOKEN: "eyJhbGciOiJIUzI1NiJ9.eyJhaSI6MjI4MjMzLCJ1aSI6MSwiZXhwIjoxNzI0Mjc2OTYzfQ.dwWyIp2s5IODLcFFPNGpKuf3dJHPo2KkftoPlvJolUU",
+    FUDO_API_KEY: '',
+FUDO_API_SECRET: '',
+FUDO_API_TOKEN: '',
  public: {
-      baseURL: 'https://coffee-time-pied.vercel.app/',
+      baseURL: process.env.NODE_ENV === 'production' ?	'http://app.croissant.com.ar/' : 'http://localhost:3000',
     },
   },
    auth: {
     globalAppMiddleware: true,
-    origin:'https://coffee-time-pied.vercel.app/'
+    origin:'https://app.croissant.com.ar/'
    },
 })

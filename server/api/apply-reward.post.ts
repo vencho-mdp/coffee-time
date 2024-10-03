@@ -1,5 +1,8 @@
-const url = "https://api.fu.do/v1alpha1/sales?sort=id%2C-id%2CcreatedAt%2C-createdAt&include=items%2Ctable.room";
+import db from "../db/db";
+
+const url = "https://api.fu.do/v1alpha1/sales?sort=-createdAt&include=items%2Ctable.room"
 const url_for_adding_item = "https://api.fu.do/v1alpha1/items";
+
 function generateUUID() {
   // Generate UUID version 4
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -10,57 +13,81 @@ function generateUUID() {
 }
 
 export default defineEventHandler(async (event) => {
-        const { FUDO_API_TOKEN } = useRuntimeConfig(event)
-  const body = await readBody(event)  
-  const code = body.code
-     const salesData = await $fetch(url, {
+  try {
+     const FUDO_API_TOKEN = await getApiToken(); 
+  const body = await readBody(event);
+  const code = body.code;
+
+  // Query the database to get the product_id associated with the provided code
+  const promoCode = await db('promo_codes').where({ name: code, used:false }).first();
+
+  if (!promoCode) {
+    throw new Error('Invalid promo code');
+  }
+
+  const productId = promoCode.product_id;
+
+  // Fetch sales data
+  const salesData = await $fetch(url, {
     method: 'GET',
     headers: {
-        'accept': 'application/json',
-        'authorization': `Bearer ${FUDO_API_TOKEN}`
+      'accept': 'application/json',
+      'authorization': `Bearer ${FUDO_API_TOKEN}`
     }
-});const sale =  salesData?.data.find(e => e.type === 'Sale' && e.attributes.saleState === 'IN-COURSE').id
+  });
+// return salesData
+  // Find the sale in progress
+  const sale = salesData?.data.find(e => e.type === 'Sale' && e.attributes.saleState === 'IN-COURSE').id;
 
-await $fetch(url_for_adding_item, {
+  // Add the item to the sale
+  await $fetch(url_for_adding_item, {
     method: 'POST',
     headers: {
-        'accept': 'application/json',
-        'authorization': `Bearer ${FUDO_API_TOKEN}`
+      'accept': 'application/json',
+      'authorization': `Bearer ${FUDO_API_TOKEN}`
     },
     body: {
-       "data": {
-    "type": "Item",
-    "attributes": {
-      "comment": "Canjeado por puntos",
-      "price": 0,
-      "quantity": 1,
-      "origin": "MOBILE",
-      "uuid": generateUUID()
-    },
-    "relationships": {
-      "priceList": {
-        "data": {
-          "id": "1",
-          "type": "PriceList"
-        }
-      },
-      "product": {
-        "data": {
-          "id": "5",
-          "type": "Product"
-        }
-      },
-      "sale": {
-        "data": {
-          "id": sale,
-          "type": "Sale"
+      "data": {
+        "type": "Item",
+        "attributes": {
+          "comment": "Canjeado por puntos",
+          "price": 0,
+          "quantity": 1,
+          "origin": "MOBILE",
+          "uuid": generateUUID()
+        },
+        "relationships": {
+          // "priceList": {
+          //   "data": {
+          //     "id": "0",
+          //     "type": "PriceList"
+          //   }
+          // },
+          "product": {
+            "data": {
+              "id": productId, // Use the product ID obtained from the promo code
+              "type": "Product"
+            }
+          },
+          "sale": {
+            "data": {
+              "id": sale,
+              "type": "Sale"
+            }
+          }
         }
       }
     }
+  });
+   await db('promo_codes').where({ name: code }).update({
+    used:true
+   })
+
+  return {
+    message: 'success'
+  };
+  } catch (error) {
+    return {error: error.response} 
   }
-    }
+ 
 });
-return {
-  message: 'success'
-}
-})

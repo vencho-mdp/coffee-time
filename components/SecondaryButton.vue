@@ -5,7 +5,7 @@
         ? '!bg-gray-300 text-gray-500'
         : 'bg-primary-brown-dark text-gray-50',
     ]"
-    class="bg-primary-brown-dark text-gray-50 rounded-md text-sm font-medium flex items-center justify-center py-2 px-4"
+    class="bg-primary-brown-dark text-gray-50 rounded-xl text-sm font-medium flex items-center justify-center py-2 px-4"
   >
     <slot />
   </button>

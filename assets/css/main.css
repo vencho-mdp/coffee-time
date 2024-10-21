@@ -22,3 +22,6 @@
 .list-leave-active {
   position: absolute;
 }
+body {
+  background-color: #F6F5F1;
+}

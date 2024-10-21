@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-4 border-gray-200 border flex flex-col items-center rounded-lg my-2 justify-between"
+    class="p-4 bg-white border-gray-200 border flex flex-col items-center rounded-lg my-2 justify-between"
   >
     <div class="flex items-center justify-between min-w-full">
       <img

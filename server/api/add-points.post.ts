@@ -1,23 +1,7 @@
 import { getServerSession } from '#auth';
 import db from '../db/db';
 const url = "https://api.fu.do/v1alpha1/sales?sort=-createdAt&include=items%2Ctable.room"
- function getArgentineTimeISO() {
-  const offset = -3 * 60; // Argentine time offset in minutes (UTC-3)
-  const now = new Date();
-  
-  // Adjust time to Argentine Time (UTC-3)
-  const argentinaTime = new Date(now.getTime() + offset * 60000);
 
-  // Start of today in Argentine Time
-  const startOfToday = new Date(argentinaTime.getFullYear(), argentinaTime.getMonth(), argentinaTime.getDate());
-  // End of today in Argentine Time
-  const endOfToday = new Date(argentinaTime.getFullYear(), argentinaTime.getMonth(), argentinaTime.getDate() + 1, 0, 0, -1);
-
-  return {
-    startOfTodayISO: startOfToday.toISOString(),
-    endOfTodayISO: endOfToday.toISOString()
-  };
-}
 
 export default defineEventHandler(async (event) => {
  

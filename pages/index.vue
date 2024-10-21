@@ -1,16 +1,25 @@
 <template>
   <main class="p-4" v-if="!data.user?.name?.includes?.('Benicio')">
     <div class="py-4">
-      <span class="w-full flex items-center justify-center">
-        <img
-          src="/images/logo_croissant_largo.png"
-          alt="Croissant"
-          class="w-3/4 -mt-6"
-        />
+      <span class="w-full flex flex-col items-center justify-center -mt-6">
+        <span class="flex justify-between items-center w-full">
+          <img
+            src="/images/logo_croissant_largo.png"
+            alt="Croissant"
+            class="-ml-8 -mr-4 w-[80%]"
+          />
+          <SecondaryButton
+            @click="installPwa()"
+            v-if="$pwa && !$pwa.isPWAInstalled"
+            >Instalar</SecondaryButton
+          >
+        </span>
+
+        <hr class="w-full h-2 -mt-2 mb-2" />
       </span>
 
       <span class="flex items-end justify-between">
-        <Header> Hola {{ data.user.name }} </Header>
+        <Header> Hola {{ data.user.name.split(" ")[0] }} </Header>
         <span class="font-bold text-lg text-gray-500">
           {{ usePoints().value.points }} Puntos
         </span>
@@ -79,7 +88,7 @@
             :product_name="product.name"
             :points_required="product.points_required"
             :image_url="product.image"
-            :key="product.name"
+            :key="product.image"
             @redeem="redeem"
           />
         </TransitionGroup>
@@ -91,7 +100,7 @@
           :product_name="product.name"
           :points_required="product.points_required"
           :image_url="product.image"
-          :key="product.name"
+          :key="product.image"
         />
       </TransitionGroup>
     </div>
@@ -99,7 +108,13 @@
   <main v-else class="p-4">
     <div class="py-4">
       <span class="flex items-end justify-between">
-        <Header>¡Hola!</Header>
+        <Header>
+          {{
+            // if more than 12 hours, say "día"
+            new Date().getHours() > 12 ? "Buenas tardes" : "Buen día"
+          }}
+          {{ data.user.name.split(" ")[0] }}
+        </Header>
       </span>
       <div class="w-full mt-4">
         <div>
@@ -159,11 +174,49 @@
       </p>
     </div>
   </div>
+  <div
+    class="min-w-full min-h-body pt-40 top-0 absolute bg-[#00000033]"
+    style="box-shadow: 0 0 0 1000000px rgba(0, 0, 0, 0.2)"
+    v-if="
+      $pwa &&
+      !$pwa.isPWAInstalled &&
+      usePoints().value.points !== 3000 &&
+      showPwaInstallation
+    "
+  >
+    <div
+      class="bg-white rounded-lg mx-8 gap-4 flex flex-col min-h-full items-center justify-center p-8"
+    >
+      <PrimaryButton
+        @click="showPwaInstallation = false"
+        class="-mt-6 -mb-4 ml-auto -mr-2"
+        >X</PrimaryButton
+      >
+
+      <Header class="text-center">Obtené beneficios </Header>
+      <span class="text-lg">
+        Te vamos a avisar cuando hayan ofertas para vos</span
+      >
+      <SecondaryButton @click="installPwa()" v-if="$pwa && !$pwa.isPWAInstalled"
+        >Instalar</SecondaryButton
+      >
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 const { data, status } = useAuth();
 const showModal = ref(false);
+const { $pwa } = useNuxtApp();
+const showPwaInstallation = ref(true);
+const installPwa = async () => {
+  showPwaInstallation.value = false;
+  try {
+    await $pwa?.install();
+  } catch (error) {
+    console.log(error);
+  }
+};
 const closeModal = () => {
   showModal.value = false;
 };
@@ -225,7 +278,7 @@ if (useRoute().query.show_badge == "true") {
   }, 3000);
 }
 const first_part_of_url =
-  "https://coffee-time-pied.vercel.app/images/" ||
+  "https://app.croissant.com.ar/images/" ||
   window?.location?.origin ||
   "http://localhost:3000" + "/images/";
 const { data: products } = await useFetch("/api/get-products", {

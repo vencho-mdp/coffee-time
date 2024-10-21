@@ -10,7 +10,13 @@
       />
     </span>
     <Header class="mt-8 text-center">¡Hola Crossi Fan!</Header>
-    <span class="text-lg mb-8"> Registrate y empezá a sumar puntos</span>
+    <span class="text-lg mb-8 text-center">
+      {{
+        route.query.requires_extra_data
+          ? "¡Te regalamos 3000 puntos + los de tu compra!"
+          : "Registrate y empezá a sumar puntos"
+      }}</span
+    >
     <!-- <div class="mb-4">
       <label
         for="email"
@@ -65,7 +71,7 @@
     <button
       type="button"
       @click="signIn('google', { redirect: false, callbackUrl: '/' })"
-      class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm w-80 px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
+      class="text-white bg-[#659CF5] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm w-80 px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
     >
       <svg
         class="w-4 h-4 me-2"
@@ -92,8 +98,7 @@ definePageMeta({
     navigateAuthenticatedTo: "/",
   },
 });
-const email = ref("");
-const password = ref("");
+const route = useRoute();
 const signIn = useAuth().signIn;
 </script>
 

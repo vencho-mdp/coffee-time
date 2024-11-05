@@ -8,7 +8,7 @@
         width="144"
         height="144"
         alt="product"
-        class="rounded-full h-36 w-36 object-cover"
+        class="rounded-full h-36 w-36"
       />
       <span>
         <div class="pr-12">

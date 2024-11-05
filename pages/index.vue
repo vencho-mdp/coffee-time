@@ -1,5 +1,11 @@
 <template>
-  <main class="p-4" v-if="!data.user?.name?.includes?.('Benicio')">
+  <main
+    class="p-4"
+    v-if="
+      !data.user?.name?.includes?.('Benicio') ||
+      !data.user?.email.includes('cordobacaja@gmail.com')
+    "
+  >
     <div class="py-4">
       <span class="w-full flex flex-col items-center justify-center -mt-6">
         <span class="flex justify-between items-center w-full">
@@ -10,7 +16,7 @@
           />
           <SecondaryButton
             @click="installPwa()"
-            v-if="$pwa && !$pwa.isPWAInstalled"
+            v-if="$pwa && !$pwa.isPWAInstalled && !$device.isApple"
             >Instalar</SecondaryButton
           >
         </span>
@@ -182,7 +188,8 @@
       !$pwa.isPWAInstalled &&
       usePoints().value.points !== 3000 &&
       showPwaInstallation &&
-      !code
+      !code &&
+      !$device.isApple
     "
   >
     <div
@@ -209,6 +216,8 @@
 const { data, status } = useAuth();
 const showModal = ref(false);
 const { $pwa } = useNuxtApp();
+const $device = useDevice();
+
 const showPwaInstallation = ref(true);
 const installPwa = async () => {
   showPwaInstallation.value = false;

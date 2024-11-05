@@ -9,7 +9,7 @@ export default defineNuxtConfig({
      'Huntress': true,
      'Anton': true
    }
-  }], '@vite-pwa/nuxt', 'nuxt-gtag', '@nuxt/image'],
+  }], '@vite-pwa/nuxt', 'nuxt-gtag', '@nuxt/image', '@nuxtjs/device'],
    tailwindcss: {
     editorSupport: true
     // editorSupport: { autocompleteUtil: { as: 'tailwindClasses' } }

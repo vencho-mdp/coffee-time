@@ -37,7 +37,7 @@ export default NuxtAuthHandler({
               await db("loyalty_points")
               .insert({
                 user_id:  newUser[0].id,
-                points_balance: 3000,
+                points_balance: 3500,
               })
             token.id = newUser[0].id;
           } else {

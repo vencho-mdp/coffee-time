@@ -3,11 +3,13 @@
     class="p-4 border-gray-200 bg-white border flex flex-col items-center rounded-lg my-2 justify-between"
   >
     <div class="flex items-center justify-between min-w-full">
-      <img
-        :src="props.image_url"
+      <NuxtImg
+        :src="'/images/' + props.image_url"
         alt="product"
-        loading="lazy"
-        class="rounded-full h-36 w-36 object-cover"
+        width="144"
+        height="144"
+        placeholder
+        class="rounded-full object-cover"
       />
       <span>
         <div class="pr-12">

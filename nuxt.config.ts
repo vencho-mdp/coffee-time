@@ -9,10 +9,13 @@ export default defineNuxtConfig({
      'Huntress': true,
      'Anton': true
    }
-  }], '@vite-pwa/nuxt'],
+  }], '@vite-pwa/nuxt', 'nuxt-gtag', '@nuxt/image'],
    tailwindcss: {
     editorSupport: true
     // editorSupport: { autocompleteUtil: { as: 'tailwindClasses' } }
+  },
+  gtag: {
+    id: 'G-38CLMFC95R'
   },
   pwa: {
       registerType: 'autoUpdate',
@@ -45,12 +48,13 @@ export default defineNuxtConfig({
       periodicSyncForUpdates: 3600,
     },
     devOptions: {
-      enabled: true,
+      // enabled: true,
       // suppressWarnings: true,
       navigateFallback: '/',
       navigateFallbackAllowlist: [/^\/$/],
       type: 'module',
     },
+    strategies: 'injectManifest'
   },
    runtimeConfig: {
     FUDO_API_KEY: '',

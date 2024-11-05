@@ -181,7 +181,8 @@
       $pwa &&
       !$pwa.isPWAInstalled &&
       usePoints().value.points !== 3000 &&
-      showPwaInstallation
+      showPwaInstallation &&
+      !code
     "
   >
     <div
@@ -277,21 +278,13 @@ if (useRoute().query.show_badge == "true") {
     await useRouter().replace("");
   }, 3000);
 }
-const first_part_of_url =
-  "https://app.croissant.com.ar/images/" ||
-  window?.location?.origin ||
-  "http://localhost:3000" + "/images/";
-const { data: products } = await useFetch("/api/get-products", {
-  transform: (response) =>
-    response.map((p) => ({
-      ...p,
-      image: first_part_of_url + p.image,
-    })),
-});
+
+const { data: products } = await useFetch("/api/get-products");
 const { data: initial_points } = await useFetch("/api/get-points-balance");
 usePoints().value.points = initial_points.value.points;
 const redeem = async (product_name) => {
   const found_id = products.value.find((p) => p.name === product_name).id;
+  code.value = "";
   const created_promo_code = await $fetch("/api/create-promo-code", {
     method: "POST",
     body: {
@@ -300,6 +293,11 @@ const redeem = async (product_name) => {
     },
   });
   code.value = created_promo_code.code_value;
+  // scroll to top but smoothly
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 };
 let selectedCategory = ref("todos");
 const changeSelectedCategory = (e) => {

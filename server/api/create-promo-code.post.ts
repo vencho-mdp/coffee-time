@@ -1,6 +1,7 @@
 import db from "../db/db";
-import products_in_app from "../utils/products";
+import getProducts from "../utils/products";
 import { getServerSession } from '#auth'
+
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -27,18 +28,9 @@ export default defineEventHandler(async (event) => {
   });
   const { user } = await getServerSession(event);
     // Update the points_balance in the loyalty_points table
-      const FUDO_API_TOKEN = await getApiToken()
-  const { data: products } = await $fetch("https://api.fu.do/v1alpha1/products", {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      authorization: `Bearer ${FUDO_API_TOKEN}`,
-    },
-  });
+  let products = await getProducts()
 
-    const points_to_reduce = products_in_app.find(
-     p => p.product_name_in_dashboard === products.find(e => e.id === body.product_id).attributes.name
-    )?.points_required 
+    const points_to_reduce =products.find(e => e.id === body.product_id)?.points_required
 
      await db('loyalty_points')
       .where({ user_id: user.id })

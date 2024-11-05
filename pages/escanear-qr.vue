@@ -18,7 +18,7 @@ const onDetect = async (data = [{ rawValue: "/api/add-points" }]) => {
   if (sales_ids.includes(res.sale_id)) {
     navigateTo({
       path: "/",
-      query: { show_badge: true, points: 0 },
+      query: { show_badge: true, points: res.added_points },
     });
     return;
   }

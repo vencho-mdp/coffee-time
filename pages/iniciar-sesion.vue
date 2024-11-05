@@ -9,12 +9,11 @@
         class="w-40 -mt-6"
       />
     </span>
-    <Header class="mt-8 text-center">¡Hola Crossi Fan!</Header>
+    <Header class="mt-8 text-center">Hola Crossi Fan!</Header>
     <span class="text-lg mb-8 text-center">
       {{
-        route.query.requires_extra_data
-          ? "¡Te regalamos 3000 puntos + los de tu compra!"
-          : "Registrate y empezá a sumar puntos"
+        // if user already has account will be redirected
+        "¡Te invitamos un café en tu próxima visita!"
       }}</span
     >
     <!-- <div class="mb-4">

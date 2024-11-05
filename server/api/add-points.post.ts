@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
         'authorization': `Bearer ${FUDO_API_TOKEN}`
       }
     });
-    const sale = salesData?.data.filter(e => e.type === 'Sale')[0]
+    const sale = salesData?.data.filter(e => e.type === 'Sale' && e.attributes.saleState === 'CLOSED')[0]
 
     if (!sale) {
       return { message: 'No sales data found' };
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const summedPrices = sale.attributes.total;
-    const amount_of_points = Math.round(summedPrices * 0.1);
+    const amount_of_points = Math.round(summedPrices * 0.2);
 
     const { user } = await getServerSession(event);
     // Update the points_balance in the loyalty_points table

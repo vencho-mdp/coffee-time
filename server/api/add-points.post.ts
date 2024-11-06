@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
         'authorization': `Bearer ${FUDO_API_TOKEN}`
       }
     });
-    const sale = salesData?.data.filter(e => e.type === 'Sale' && e.attributes.saleState === 'CLOSED')[0]
+    const sale = salesData?.data.filter(e => e.type === 'Sale' && e.attributes.saleState === 'IN-PROGRESS')[0]
 
     if (!sale) {
       return { message: 'No sales data found' };

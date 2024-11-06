@@ -2,8 +2,8 @@
   <main
     class="p-4"
     v-if="
-      !data.user?.name?.includes?.('Benicio') ||
-      !data.user?.email.includes('cordobacaja@gmail.com')
+      !data.user?.name?.includes?.('Benicio') &&
+      !data.user?.email?.includes?.('cordobacaja')
     "
   >
     <div class="py-4">

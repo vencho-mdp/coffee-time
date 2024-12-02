@@ -1,83 +1,157 @@
 const raw_products = [
   {
-    category: "café",
-    points_required: 3500,
-    image: "cafe_xl.jpg",
-    code: "105",
-  },
-  // {
-  //   category: "Dulce",
-  //   points_required: 3500,
-  //   image: "muffin_chocolate.jpg",
-  //   product_name_in_dashboard: "Muffin Chocolate",
-  // },
-  {
-    category: "Dulce",
-    points_required: 3500,
-    image: "muffin_limon.jpg",
-    code: "439",
+    category: "dulce",
+    image: "medialuna_unidad.jpg",
+    code: "401",
+    product_name_in_dashboard: "Medialuna dulce",
   },
   {
     category: "salado",
-    points_required: 1900,
-    image: "medialuna_de_jyq.jpeg",
-    code: "409",
+    image: "medialuna_unidad.jpg",
+    code: "402",
+    product_name_in_dashboard: "Medialuna salada",
   },
-  // {
-  //   category: "Dulce",
-  //   points_required: 900,
-  //   image: "medialuna_dulce.jpeg",
-  //   product_name_in_dashboard: "D. Medialuna dulce",
-  // },
   {
-    category: "Dulce",
-    points_required: 6000,
+    category: "bebida",
+    image: "cafe_xl.jpg",
+    product_name_in_dashboard: "Cafe con leche TAZA XL",
+  },
+  {
+    category: "bebida",
+    image: "cafe_l.jpg",
+    product_name_in_dashboard: "Cafe con leche",
+    code: "105",
+  },
+  {
+    category: "salado",
+    image: "medialuna_de_jyq.jpg",
+    code: "5015",
+  },
+
+  {
+    category: "dulce",
     image: "porcion_bruce.jpg",
     code: "47",
     product_name_in_dashboard: "Torta Bruce",
   },
+
   {
-    category: "Dulce",
-    points_required: 3500,
-    image: "porcion_budin_limon_y_amapolas.jpg",
-    code: "487",
-  },
-  {
-    category: "Dulce",
-    points_required: 5600,
-    image: "porcion_de_chesscake_frutos_rojos.jpeg",
+    category: "dulce",
+    image: "porcion_de_cheesecake_frutos_rojos.jpg",
     code: "403",
   },
   {
-    category: "Dulce",
-    points_required: 6600,
+    category: "dulce",
     image: "porcion_red_velvet.jpg",
     product_name_in_dashboard: "Red velvet",
   },
   {
+    category: "dulce",
+    image: "alfajor_ddl_y_frutos_rojos.jpg",
+    product_name_in_dashboard: "Alfajor de dulce de leche y frutos rojos",
+  },
+  {
+    category: "dulce",
+    image: "alfajor_ganache.jpg",
+    product_name_in_dashboard: "Alfajor choco negro y frutos rojos",
+  },
+  {
+    category: "dulce",
+    image: "alfajor_toffee.jpg",
+    product_name_in_dashboard: "Alfajor Toffee",
+  },
+  {
     category: "salado",
-    points_required: 3630,
     image: "scon_de_queso.jpg",
     code: "447",
   },
   {
     category: "salado",
-    points_required: 3600,
     image: "scon_relleno.jpg",
+    code: null,
     product_name_in_dashboard: "Scon relleno cheddar y lomito",
   },
   {
     category: "salado",
-    points_required: 7100,
-    image: "tostado_jamon_y_provolone.jpg",
+    image: "scon_relleno.jpg",
+    code: null,
+    product_name_in_dashboard: "Scon relleno cheddar y panceta",
+  },
+  {
+    category: "salado",
+    image: "scon_relleno.jpg",
+    code: null,
+    product_name_in_dashboard: "Scon relleno provolone y cheddar",
+  },
+  {
+    category: "salado",
+    image: "scon_relleno.jpg",
+    code: null,
+    product_name_in_dashboard: "Scon relleno provolone y jamon",
+  },
+  {
+    category: "salado",
+    image: "tostado.jpg",
+    code: "706",
+    product_name_in_dashboard: "Tostado cheddar y lomito",
+  },
+  {
+    category: "salado",
+    image: "tostado.jpg",
+    code: "705",
+    product_name_in_dashboard: "Tostado cheddar y panceta",
+  },
+  {
+    category: "salado",
+    image: "tostado.jpg",
+    code: "708",
+    product_name_in_dashboard: "Tostado provolone y cheddar",
+  },
+  {
+    category: "salado",
+    image: "tostado.jpg",
     code: "710",
+    product_name_in_dashboard: "Tostado provolone y jamon",
+  },
+
+  {
+    category: "dulce",
+    code: "44",
+    image: "croissant.jpg",
+  },
+  {
+    category: "bebida",
+    code: "605",
+    image: "limonada.jpg",
+  },
+  // {
+  //   category: "bebida",
+  //   code: "600",
+  //   image: "exprimido_de_naranja.jpg",
+  // },
+  // {
+  //   category: ["dulce", "salado"],
+  //   image: "media_docena_medialunas.jpg",
+  //   product_name_in_dashboard: "Media docena de medialunas",
+  // },
+  // {
+  //   category: ["dulce", "salado"],
+  //   image: "docena_medialunas.jpg",
+  //   product_name_in_dashboard: "Docena de medialunas",
+  // },
+  {
+    category: "vasos",
+    product_name_in_dashboard: "Vaso térmico moments",
+    image: "vaso_moments_recargable.jpg",
   },
 ].map((p) => ({
   ...p,
-  name: p.image
-    .split(".")[0] // Elimina la extensión del archivo
-    .replace(/_/g, " ") // Reemplaza guiones bajos por espacios
-    .replace(/\b\w/g, (c) => c.toUpperCase()), // Capitaliza la primera letra de cada palabra
+  name:
+    p.product_name_in_dashboard ||
+    p.image
+      .split(".")[0] // Elimina la extensión del archivo
+      .replace(/_/g, " ") // Reemplaza guiones bajos por espacios
+      .replace(/\b\w/g, (c) => c.toUpperCase()), // Capitaliza la primera letra de cada palabra
 }));
 const url = "https://api.fu.do/v1alpha1/products?page[size]=500";
 
@@ -118,9 +192,24 @@ export default defineCachedFunction(
           prod.attributes.code === p?.code ||
           prod.attributes.name === p?.product_name_in_dashboard
       )?.attributes?.price,
+      options: p?.options
+        ? p.options.map((option) => ({
+            ...option,
+            id: products.find(
+              (prod) =>
+                prod.attributes.code === option?.code ||
+                prod.attributes.name === option?.product_name_in_dashboard
+            )?.id,
+            points_required: products.find(
+              (prod) =>
+                prod.attributes.code === option?.code ||
+                prod.attributes.name === option?.product_name_in_dashboard
+            )?.attributes?.price,
+          }))
+        : null,
     }));
   },
   {
-    maxAge: 1000 * 60 * 60 * 24, // 24 hs
+    maxAge: 1000 * 60 * 60, // 1 hs
   }
 );

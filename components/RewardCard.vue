@@ -16,7 +16,8 @@
             {{ props.product_name }}
           </h4>
           <h5 class="text-md text-center font-bold text-gray-500">
-            {{ props.points_required }} puntos
+            {{ props.points_required || options[0].points_required }}
+            puntos
           </h5>
         </div>
       </span>
@@ -28,7 +29,12 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(["product_name", "points_required", "image_url"]);
+const props = defineProps([
+  "product_name",
+  "points_required",
+  "image_url",
+  "options",
+]);
 const emit = defineEmits(["redeem"]);
 const redeem = () => {
   // random number from 1 to 100

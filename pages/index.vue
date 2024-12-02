@@ -94,6 +94,7 @@
             :product_name="product.name"
             :points_required="product.points_required"
             :image_url="product.image"
+            :options="product.options"
             :key="product.image"
             @redeem="redeem"
           />
@@ -303,31 +304,45 @@ const redeem = async (product_name) => {
   });
   code.value = created_promo_code.code_value;
   // scroll to top but smoothly
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, 100);
 };
 let selectedCategory = ref("todos");
 const changeSelectedCategory = (e) => {
   selectedCategory.value = e;
 };
-const categories = ["todos", ...new Set(products.value.map((e) => e.category))];
+const categories = [
+  "todos",
+  ...new Set(products.value.flatMap((e) => e.category)),
+];
 const filteredProducts = computed(() => {
   return products.value.filter(
     (e) =>
       selectedCategory.value === "todos" ||
-      e.category === selectedCategory.value
+      e.category === selectedCategory.value ||
+      selectedCategory.value.includes(e.category)
   );
 });
 const products_that_could_be_rewarded = computed(() => {
   return filteredProducts.value.filter(
-    (product) => product.points_required <= usePoints().value.points
+    (product) =>
+      product.points_required <= usePoints().value.points ||
+      product?.options?.some(
+        (option) => option.points_required <= usePoints().value.points
+      )
   );
 });
 const products_not_yet_available = computed(() => {
   return filteredProducts.value.filter(
-    (product) => product.points_required > usePoints().value.points
+    (product) =>
+      product.points_required > usePoints().value.points ||
+      product?.options?.every(
+        (option) => option.points_required > usePoints().value.points
+      )
   );
 });
 </script>

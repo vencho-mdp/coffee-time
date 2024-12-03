@@ -9,7 +9,7 @@
         class="w-40 -mt-6"
       />
     </span>
-    <Header class="mt-8 text-center">Hola Crossi Fan!</Header>
+    <Header class="mt-8 text-center">¡Hola Crossi Fan!</Header>
     <span class="text-lg mb-8 text-center">
       {{
         // if user already has account will be redirected

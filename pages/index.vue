@@ -87,7 +87,7 @@
           >{{ category }}
         </PillButton>
       </span>
-      <div class="grid grid-cols-1 gap-4 mt-4">
+      <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
         <TransitionGroup name="list">
           <RewardCard
             v-for="product in products_that_could_be_rewarded"
@@ -96,11 +96,11 @@
             :image_url="product.image"
             :options="product.options"
             :key="product.image"
+            :category="selectedCategory"
             @redeem="redeem"
           />
         </TransitionGroup>
       </div>
-
       <TransitionGroup name="list">
         <UnavailableRewardCard
           v-for="product in products_not_yet_available"
@@ -292,13 +292,19 @@ if (useRoute().query.show_badge == "true") {
 const { data: products } = await useFetch("/api/get-products");
 const { data: initial_points } = await useFetch("/api/get-points-balance");
 usePoints().value.points = initial_points.value.points;
-const redeem = async (product_name) => {
-  const found_id = products.value.find((p) => p.name === product_name).id;
+const redeem = async (product_name, selectedOption) => {
+  const found_id = products.value.find((p) => p.name === product_name);
   code.value = "";
   const created_promo_code = await $fetch("/api/create-promo-code", {
     method: "POST",
     body: {
-      product_id: found_id,
+      product_id: selectedOption
+        ? found_id.options.find(
+            (e) =>
+              e.code === selectedOption ||
+              e.product_name_in_dashboard === selectedOption
+          ).id
+        : found_id.id,
       product_name: product_name,
     },
   });
@@ -324,7 +330,7 @@ const filteredProducts = computed(() => {
     (e) =>
       selectedCategory.value === "todos" ||
       e.category === selectedCategory.value ||
-      selectedCategory.value.includes(e.category)
+      e.category.includes(selectedCategory.value.toLowerCase())
   );
 });
 const products_that_could_be_rewarded = computed(() => {

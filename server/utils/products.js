@@ -1,15 +1,13 @@
 const raw_products = [
   {
-    category: "dulce",
+    category: ["dulce", "salado"],
     image: "medialuna_unidad.jpg",
     code: "401",
-    product_name_in_dashboard: "Medialuna dulce",
-  },
-  {
-    category: "salado",
-    image: "medialuna_unidad.jpg",
-    code: "402",
-    product_name_in_dashboard: "Medialuna salada",
+    product_name_in_dashboard: "Medialuna",
+    options: [
+      { option: "Dulce", code: "401", category: "dulce" },
+      { option: "Salada", code: "402", category: "salado" },
+    ],
   },
   {
     category: "cafetería",
@@ -68,50 +66,47 @@ const raw_products = [
   {
     category: "salado",
     image: "scon_relleno.jpg",
-    code: null,
-    product_name_in_dashboard: "Scon relleno cheddar y lomito",
-  },
-  {
-    category: "salado",
-    image: "scon_relleno.jpg",
-    code: null,
-    product_name_in_dashboard: "Scon relleno cheddar y panceta",
-  },
-  {
-    category: "salado",
-    image: "scon_relleno.jpg",
-    code: null,
-    product_name_in_dashboard: "Scon relleno provolone y cheddar",
-  },
-  {
-    category: "salado",
-    image: "scon_relleno.jpg",
-    code: null,
-    product_name_in_dashboard: "Scon relleno provolone y jamon",
-  },
-  {
-    category: "salado",
-    image: "tostado.jpg",
-    code: "706",
-    product_name_in_dashboard: "Tostado cheddar y lomito",
+    product_name_in_dashboard: "Scon relleno",
+    options: [
+      {
+        option: "Cheddar y Lomito",
+        product_name_in_dashboard: "Scon relleno cheddar y lomito",
+      },
+      {
+        option: "Cheddar y Panceta",
+        product_name_in_dashboard: "Scon relleno cheddar y panceta",
+      },
+      {
+        option: "Provolone y Cheddar",
+        product_name_in_dashboard: "Scon relleno provolone y cheddar",
+      },
+      {
+        option: "Provolone y Jamón",
+        product_name_in_dashboard: "Scon relleno provolone y jamon",
+      },
+    ],
   },
   {
     category: "salado",
     image: "tostado.jpg",
-    code: "705",
-    product_name_in_dashboard: "Tostado cheddar y panceta",
-  },
-  {
-    category: "salado",
-    image: "tostado.jpg",
-    code: "708",
-    product_name_in_dashboard: "Tostado provolone y cheddar",
-  },
-  {
-    category: "salado",
-    image: "tostado.jpg",
-    code: "710",
-    product_name_in_dashboard: "Tostado provolone y jamon",
+    options: [
+      {
+        option: "Cheddar y Lomito",
+        code: "706",
+      },
+      {
+        option: "Cheddar y Panceta",
+        code: "705",
+      },
+      {
+        option: "Provolone y Cheddar",
+        code: "708",
+      },
+      {
+        option: "Provolone y Jamón",
+        code: "710",
+      },
+    ],
   },
 
   {
@@ -130,12 +125,12 @@ const raw_products = [
     image: "exprimido_de_naranja.jpg",
   },
   {
-    category: ["dulce", "salado"],
+    category: "Take away",
     image: "media_docena_medialunas.jpg",
     product_name_in_dashboard: "Media docena de medialunas",
   },
   {
-    category: ["dulce", "salado"],
+    category: "Take away",
     image: "docena_medialunas.jpg",
     product_name_in_dashboard: "Docena de medialunas",
   },

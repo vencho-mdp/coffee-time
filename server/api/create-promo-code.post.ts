@@ -1,7 +1,13 @@
 import db from "../db/db";
 import getProducts from "../utils/products";
 import { getServerSession } from '#auth'
-
+const getThreeRandomLetters = (str) => { 
+  let result = '';
+  for (let i = 0; i < 3; i++) {
+    result += str.charAt(Math.floor(Math.random() * str.length));
+  }
+  return result;
+}
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -9,7 +15,7 @@ export default defineEventHandler(async (event) => {
   let isCodeUnique = false;
   while (!isCodeUnique) {
     code_value =
-      body.product_name.substring(0, 3).toUpperCase() +
+     getThreeRandomLetters(body.product_name.substring(0, 3)).toUpperCase() +
       "-" +
       Math.floor(100 + Math.random() * 900);
 

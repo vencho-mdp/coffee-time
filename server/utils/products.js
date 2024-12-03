@@ -129,16 +129,16 @@ const raw_products = [
     code: "600",
     image: "exprimido_de_naranja.jpg",
   },
-  // {
-  //   category: ["dulce", "salado"],
-  //   image: "media_docena_medialunas.jpg",
-  //   product_name_in_dashboard: "Media docena de medialunas",
-  // },
-  // {
-  //   category: ["dulce", "salado"],
-  //   image: "docena_medialunas.jpg",
-  //   product_name_in_dashboard: "Docena de medialunas",
-  // },
+  {
+    category: ["dulce", "salado"],
+    image: "media_docena_medialunas.jpg",
+    product_name_in_dashboard: "Media docena de medialunas",
+  },
+  {
+    category: ["dulce", "salado"],
+    image: "docena_medialunas.jpg",
+    product_name_in_dashboard: "Docena de medialunas",
+  },
   {
     category: "vasos",
     product_name_in_dashboard: "Vaso térmico moments",

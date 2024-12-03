@@ -13,7 +13,7 @@
     <span class="text-lg mb-8 text-center">
       {{
         // if user already has account will be redirected
-        "¡Te invitamos un café en tu próxima visita!"
+        "¡Te invitamos dos medialunas en tu visita!"
       }}</span
     >
     <!-- <div class="mb-4">

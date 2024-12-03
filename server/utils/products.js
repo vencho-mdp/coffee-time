@@ -12,12 +12,12 @@ const raw_products = [
     product_name_in_dashboard: "Medialuna salada",
   },
   {
-    category: "bebida",
+    category: "cafetería",
     image: "cafe_xl.jpg",
     product_name_in_dashboard: "Cafe con leche TAZA XL",
   },
   {
-    category: "bebida",
+    category: "cafetería",
     image: "cafe_l.jpg",
     product_name_in_dashboard: "Cafe con leche",
     code: "105",
@@ -120,15 +120,15 @@ const raw_products = [
     image: "croissant.jpg",
   },
   {
-    category: "bebida",
+    category: "jugos",
     code: "605",
     image: "limonada.jpg",
   },
-  // {
-  //   category: "bebida",
-  //   code: "600",
-  //   image: "exprimido_de_naranja.jpg",
-  // },
+  {
+    category: "jugos",
+    code: "600",
+    image: "exprimido_de_naranja.jpg",
+  },
   // {
   //   category: ["dulce", "salado"],
   //   image: "media_docena_medialunas.jpg",

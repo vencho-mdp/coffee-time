@@ -359,10 +359,7 @@ const products_not_yet_available = computed(() => {
       )
   );
 });
-gtag("event", "screen_view", {
-  app_name: "My App",
-  screen_name: "Home",
-});
+
 useTrackEvent("number-of-rewards", {
   timestamp: new Date().toISOString(),
   available_rewards: products_that_could_be_rewarded.value.length,

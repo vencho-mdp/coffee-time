@@ -218,12 +218,14 @@ const { data, status } = useAuth();
 const showModal = ref(false);
 const { $pwa } = useNuxtApp();
 const $device = useDevice();
-
 const showPwaInstallation = ref(true);
 const installPwa = async () => {
   showPwaInstallation.value = false;
   try {
     await $pwa?.install();
+    useTrackEvent("install-pwa", {
+      device: $device.isApple ? "apple" : "android",
+    });
   } catch (error) {
     console.log(error);
   }
@@ -255,6 +257,7 @@ function formatCode(code) {
 }
 
 const verifyCode = async () => {
+  useTrackEvent("apply-reward", { timestamp: new Date().toISOString() });
   const config = useRuntimeConfig();
   await $fetch(config.public.baseURL + "/api/apply-reward", {
     method: "POST",
@@ -295,6 +298,11 @@ usePoints().value.points = initial_points.value.points;
 const redeem = async (product_name, selectedOption) => {
   const found_id = products.value.find((p) => p.name === product_name);
   code.value = "";
+  useTrackEvent("redeem-product", {
+    product_name: product_name,
+    timestamp: new Date().toISOString(),
+    option: selectedOption,
+  });
   const created_promo_code = await $fetch("/api/create-promo-code", {
     method: "POST",
     body: {
@@ -350,6 +358,15 @@ const products_not_yet_available = computed(() => {
         (option) => option.points_required > usePoints().value.points
       )
   );
+});
+gtag("event", "screen_view", {
+  app_name: "My App",
+  screen_name: "Home",
+});
+useTrackEvent("number-of-rewards", {
+  timestamp: new Date().toISOString(),
+  available_rewards: products_that_could_be_rewarded.value.length,
+  unavailable_rewards: products_not_yet_available.value.length,
 });
 </script>
 

@@ -16,7 +16,11 @@
           {{ props.product_name }}
         </h4>
         <h5 class="text-md text-center font-bold text-gray-500">
-          {{ props.points_required || props.options[0].points_required }}
+          {{
+            !props.options
+              ? props.points_required
+              : props.options[0].points_required
+          }}
           puntos
         </h5>
       </div>

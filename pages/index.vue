@@ -107,7 +107,7 @@
           :product_name="product.name"
           :points_required="product.points_required"
           :image_url="product.image"
-          :points_required="product.points_required"
+          :options="product.options"
           :key="product.image"
         />
       </TransitionGroup>

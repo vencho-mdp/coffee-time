@@ -9,7 +9,7 @@
         width="144"
         height="144"
         placeholder
-        class="rounded-full object-cover"
+        class="rounded-full object-cover h-36 w-36"
       />
       <span>
         <div class="pr-12">

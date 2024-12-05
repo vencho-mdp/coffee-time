@@ -16,15 +16,7 @@
           {{ props.product_name }}
         </h4>
         <h5 class="text-md text-center font-bold text-gray-500">
-          {{
-            props.points_required ||
-            options.find(
-              (e) =>
-                e.code === selectedOption ||
-                e.product_name_in_dashboard === selectedOption
-            ).points_required ||
-            options[0].points_required
-          }}
+          {{ props.points_required || options[0].points_required }}
           puntos
         </h5>
       </div>

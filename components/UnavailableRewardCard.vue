@@ -11,16 +11,23 @@
         placeholder
         class="rounded-full object-cover h-36 w-36"
       />
-      <span>
-        <div class="pr-12">
-          <h4 class="text-xl text-center font-bold text-gray-800">
-            {{ props.product_name }}
-          </h4>
-          <h5 class="text-md text-center font-bold text-gray-500">
-            {{ props.points_required }} puntos
-          </h5>
-        </div>
-      </span>
+      <div class="w-44 px-2">
+        <h4 class="text-xl text-center font-bold text-gray-800">
+          {{ props.product_name }}
+        </h4>
+        <h5 class="text-md text-center font-bold text-gray-500">
+          {{
+            props.points_required ||
+            options.find(
+              (e) =>
+                e.code === selectedOption ||
+                e.product_name_in_dashboard === selectedOption
+            ).points_required ||
+            options[0].points_required
+          }}
+          puntos
+        </h5>
+      </div>
     </div>
     <ProgressBar
       :width="(usePoints().value.points / props.points_required) * 100"
